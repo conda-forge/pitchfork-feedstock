@@ -63,10 +63,8 @@ requirements:
 
 tests:
   - script:
-      - if: build_platform == host_platform
-        then:
-          - pitchfork --help
-          - pitchfork --version
+      - pitchfork --help
+      - pitchfork --version
   - package_contents:
       bin:
         - pitchfork
