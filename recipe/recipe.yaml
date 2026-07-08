@@ -36,9 +36,9 @@ build:
           # generate shell completions
           - if: build_platform == host_platform
             then:
-              - mkdir "%LIBRARY_PREFIX%"\share\bash-completion\completions
-              - mkdir "%LIBRARY_PREFIX%"\share\fish\vendor_completions.d
-              - mkdir "%LIBRARY_PREFIX%"\share\zsh\site-functions
+              - if not exist "%LIBRARY_PREFIX%"\share\bash-completion\completions mkdir "%LIBRARY_PREFIX%"\share\bash-completion\completions
+              - if not exist "%LIBRARY_PREFIX%"\share\fish\vendor_completions.d   mkdir "%LIBRARY_PREFIX%"\share\fish\vendor_completions.d
+              - if not exist "%LIBRARY_PREFIX%"\share\zsh\site-functions          mkdir "%LIBRARY_PREFIX%"\share\zsh\site-functions
               - '"%LIBRARY_BIN%"\pitchfork.exe completion bash > "%LIBRARY_PREFIX%"\share\bash-completion\completions\pitchfork'
               - '"%LIBRARY_BIN%"\pitchfork.exe completion fish > "%LIBRARY_PREFIX%"\share\fish\vendor_completions.d\pitchfork.fish'
               - '"%LIBRARY_BIN%"\pitchfork.exe completion zsh  > "%LIBRARY_PREFIX%"\share\zsh\site-functions\_pitchfork'
