@@ -59,6 +59,7 @@ requirements:
     - ${{ compiler('rust') }}
     - cargo-auditable
     - cargo-bundle-licenses
+  host:
     - usage
 
 tests:
