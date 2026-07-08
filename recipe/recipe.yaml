@@ -1,33 +1,25 @@
 context:
-  version: "2.14.0"
+  version: "2.15.0"
 
 package:
   name: pitchfork
   version: ${{ version }}
 
 source:
-  # using the crates.io source tarball (instead of the GitHub one) since it ships with the
-  # pre-built web UI assets (`ui/dist`), avoiding the need for a Node.js/pnpm build step.
-  # NOTE: `file_name` is set (to give the archive a recognizable name), which means
-  # rattler-build won't auto-extract it (it only auto-extracts based on the downloaded
-  # file's own name/extension), so the archive is extracted manually as the first build step.
-  - url: https://crates.io/api/v1/crates/pitchfork-cli/${{ version }}/download
-    file_name: pitchfork-cli-${{ version }}.tar.gz
-    sha256: 76eba39b60dbf30601d0a55a0f8ba50938c5e060322f4d3895d208486b85546e
-  # the crates.io package doesn't include the top-level LICENSE file (only files
-  # explicitly listed in `Cargo.toml`'s `include` key are packaged), so fetch it separately
-  - url: https://raw.githubusercontent.com/jdx/pitchfork/v${{ version }}/LICENSE
-    file_name: LICENSE
-    sha256: 5ba5d69f83674602525196efe44114e546cf3440d363603961076e52b9647a5a
+  - url: https://github.com/jdx/pitchfork/archive/refs/tags/v${{ version }}.tar.gz
+    sha256: 9502ee192f4dc9b524485a6373097e41db66edcfe88898346c1a80d7ea33824b
 
 build:
-  number: 1
+  number: 0
   script:
     env:
       CARGO_PROFILE_RELEASE_LTO: fat
       CARGO_PROFILE_RELEASE_STRIP: symbols
     content:
-      - tar -xzf pitchfork-cli-${{ version }}.tar.gz --strip-components=1
+      # build web UI assets (`ui/dist`)
+      - aube install   --dir=ui
+      - aube run build --dir=ui
+      # build main app
       - if: unix
         then:
           - cargo auditable install --path=. --root="$PREFIX" --no-track --locked --bins
@@ -57,8 +49,10 @@ requirements:
     - ${{ stdlib('c') }}
     - ${{ compiler('c') }}
     - ${{ compiler('rust') }}
+    - aube
     - cargo-auditable
     - cargo-bundle-licenses
+    - nodejs
   host:
     - usage
 
