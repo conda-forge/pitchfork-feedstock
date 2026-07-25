@@ -1,5 +1,5 @@
 context:
-  version: "2.17.0"
+  version: "2.18.0"
 
 package:
   name: pitchfork
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/jdx/pitchfork/archive/refs/tags/v${{ version }}.tar.gz
-    sha256: f50289c0898bf1bda57a625bab89c2ec3964d6c34e6445c19113cf9e9c09f21c
+    sha256: 733fb535e25a053e022e8a2ec2a4de1cda2a47dd918fdc368c4782d6fee3e83f
 
 build:
   number: 0
